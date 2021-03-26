@@ -1,4 +1,32 @@
+# Export to txtx and FindJSON
+
+`go build -o ipdb2txtx main.go`
+
+```shell
+Usage of ./ipdb2txtx:
+  -d string
+    	test ip address, e.g. ./ipdb2txtx -f ipv4_china.ipdb -d 1.1.1.1
+  -f string
+    	ipdb file, e.g. ./ipdb2txtx -f ipv4_china.ipdb -l CN >ff.txtx (default "./ipv4_china.ipdb")
+  -l string
+    	languge (default "EN")
+```
+
+```shell
+# ./ipdb2txtx -f ipv4_china.ipdb -l CN | more
+0.0.0.0	0.255.255.255	保留地址	保留地址	*	*	*	*	*	*	*	*	*	*	*
+1.0.0.0	1.0.0.255	CLOUDFLARE.COM	CLOUDFLARE.COM	*	*	*	*	*	*	*	*	*	*	*
+1.0.1.0	1.0.3.255	中国	福建	*	*	电信	25.908899	118.125809	Asia/Shanghai	UTC+8	350000	86	CN	AP
+```
+
+```shell
+# ./ipdb2txtx -d 1.0.2.2 -l CN
+[666762 1.0.2.0 1.0.3.255 中国 福建   电信 25.908899 118.125809 Asia/Shanghai UTC+8 350000 86 CN AP] <nil>
+{"china_admin_code":"350000","city_name":"","continent_code":"AP","country_code":"CN","country_name":"中国","idd_code":"86","ip_end":"1.0.3.255","ip_start":"1.0.2.0","isp_domain":"电信","latitude":"25.908899","longitude":"118.125809","node":"666762","owner_domain":"","region_name":"福建","timezone":"Asia/Shanghai","utc_offset":"UTC+8"} <nil>
+```
+
 # ipdb-go
+
 [![TravisCI Build Status](https://travis-ci.org/ipipdotnet/ipdb-go.svg?branch=master)](https://travis-ci.org/ipipdotnet/ipdb-go)
 [![Coverage Status](https://coveralls.io/repos/github/ipipdotnet/ipdb-go/badge.svg?branch=master)](https://coveralls.io/github/ipipdotnet/ipdb-go?branch=master)
 [![IPDB Database API Document](https://godoc.org/github.com/ipipdotnet/ipdb-go?status.svg)](https://godoc.org/github.com/ipipdotnet/ipdb-go)
@@ -30,18 +58,18 @@ func main() {
 	}
 
 	db.Reload("/path/to/city.ipv4.ipdb") // 更新 ipdb 文件后可调用 Reload 方法重新加载内容
-
+	
 	fmt.Println(db.IsIPv4()) // check database support ip type
 	fmt.Println(db.IsIPv6()) // check database support ip type
 	fmt.Println(db.BuildTime()) // database build time
 	fmt.Println(db.Languages()) // database support language
 	fmt.Println(db.Fields()) // database support fields
-
+	
 	fmt.Println(db.FindInfo("2001:250:200::", "CN")) // return CityInfo
 	fmt.Println(db.Find("1.1.1.1", "CN")) // return []string
 	fmt.Println(db.FindMap("118.28.8.8", "CN")) // return map[string]string
 	fmt.Println(db.FindInfo("127.0.0.1", "CN")) // return CityInfo
-
+	
 	fmt.Println()
 }
 </code>

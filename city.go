@@ -41,6 +41,9 @@ type CityInfo struct {
 	AreaCode string `json:"area_code"`
 
 	UsageType string `json:"usage_type"`
+
+	IPStart string `json:"ip_start"`
+	IPEnd   string `json:"ip_end"`
 }
 
 type ASNInfo struct {
@@ -101,12 +104,24 @@ func (db *City) FindMap(addr, language string) (map[string]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	info := make(map[string]string, len(db.reader.meta.Fields))
-	for k, v := range data {
+
+	// Add node and ip range
+	info := map[string]string{
+		"node":     data[0],
+		"ip_start": data[1],
+		"ip_end":   data[2],
+	}
+	for k, v := range data[3:] {
 		info[db.reader.meta.Fields[k]] = v
 	}
 
 	return info, nil
+}
+
+// FindJSON
+func (db *City) FindJSON(addr, language string) ([]byte, error) {
+	info, _ := db.FindMap(addr, language)
+	return json.Marshal(info)
 }
 
 // FindInfo query with addr
@@ -179,4 +194,9 @@ func (db *City) Fields() []string {
 // BuildTime return database build Time
 func (db *City) BuildTime() time.Time {
 	return db.reader.Build()
+}
+
+// Export ipv4.ipdb to txtx
+func (db *City) IPv4TXTX(lang string) error {
+	return db.reader.IPv4TXTX(lang)
 }
