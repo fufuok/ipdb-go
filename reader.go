@@ -232,7 +232,7 @@ func (db *reader) search(ip net.IP, bitCount int) (int, *ipNetwork, error) {
 	var (
 		node    int
 		addr    int
-		mask    int
+		mask    = -1
 		ipRange = &ipNetwork{}
 	)
 
@@ -258,6 +258,9 @@ func (db *reader) search(ip net.IP, bitCount int) (int, *ipNetwork, error) {
 
 	if bitCount == 32 {
 		// Only support IPv4
+		if mask < 0 {
+			mask = bitCount
+		}
 		ipRange.ipEnd = db.IPv4String(addr)
 		_, ipRange.ipNet, _ = net.ParseCIDR(fmt.Sprintf("%s/%d", ipRange.ipEnd, mask))
 	}
