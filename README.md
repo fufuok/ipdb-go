@@ -21,7 +21,13 @@ Usage of ./ipdb2txtx:
 
 ```shell
 # ./ipdb2txtx -d 1.0.2.2 -l CN
+BuildTime: 2021-03-24 06:39:20 +0000 UTC
+Fields: [country_name region_name city_name owner_domain isp_domain latitude longitude timezone utc_offset china_admin_code idd_code country_code continent_code]
+
+db.Find(1.0.2.2, CN):
 [666762 1.0.2.0 1.0.3.255 中国 福建   电信 25.908899 118.125809 Asia/Shanghai UTC+8 350000 86 CN AP] <nil>
+
+db.FindJSON(1.0.2.2, CN):
 {"china_admin_code":"350000","city_name":"","continent_code":"AP","country_code":"CN","country_name":"中国","idd_code":"86","ip_end":"1.0.3.255","ip_start":"1.0.2.0","isp_domain":"电信","latitude":"25.908899","longitude":"118.125809","node":"666762","owner_domain":"","region_name":"福建","timezone":"Asia/Shanghai","utc_offset":"UTC+8"} <nil>
 ```
 

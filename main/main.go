@@ -24,9 +24,17 @@ func main() {
 
 	if *ip != "" {
 		// test
+		fmt.Println()
+		fmt.Println("BuildTime:", db.BuildTime())
+		fmt.Println("Fields:", db.Fields())
+
+		fmt.Printf("\ndb.Find(%s, %s):\n", *ip, *lang)
 		fmt.Println(db.Find(*ip, *lang))
+
+		fmt.Printf("\ndb.FindJSON(%s, %s):\n", *ip, *lang)
 		js, err := db.FindJSON(*ip, *lang)
 		fmt.Println(string(js), err)
+		fmt.Println()
 	} else {
 		// export
 		if err := db.IPv4TXTX(*lang); err != nil {
@@ -50,7 +58,4 @@ func test(db *ipdb.City) {
 	fmt.Println(db.Find("1.0.1.1", "CN"))
 	// 1.0.2.0/24
 	fmt.Println(db.Find("1.0.2.3", "CN"))
-
-	fmt.Println("BuildTime:", db.BuildTime())
-	fmt.Println("Fields:", db.Fields())
 }
