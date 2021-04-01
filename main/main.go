@@ -27,6 +27,7 @@ func main() {
 		fmt.Println()
 		fmt.Println("BuildTime:", db.BuildTime())
 		fmt.Println("Fields:", db.Fields())
+		fmt.Println("Languages:", db.Languages())
 
 		fmt.Printf("\ndb.Find(%s, %s):\n", *ip, *lang)
 		fmt.Println(db.Find(*ip, *lang))
